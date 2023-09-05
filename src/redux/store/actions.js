@@ -1,0 +1,1 @@
+export const FETCH_CUR_TEST = 'FETCH_CUR_TEST'
