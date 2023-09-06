@@ -81,7 +81,7 @@ const CreateTest = () => {
         options={optionsfordiffucalty}
       />
       <div className={style.boxForBtns}>
-        {createTets?<button className={style.goToTest} onClick={() => nextStep()}>Go to test</button>:'ви не можете перейти доки не створите тест'}
+        {createTets?<button className={style.goToTest} onClick={() => nextStep()}>Go to test</button>:'ви не можете перейти до тесту доки не створите тест'}
       <button className={style.buttonCreate} onClick={() => setcreateTets(true)}> create Test </button>
       </div>
       
