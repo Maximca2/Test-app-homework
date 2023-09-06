@@ -9,8 +9,8 @@ const OurTest = () => {
   const [nextTest, setnextTest] = useState(false);
   const [buttonIndex, setButtonIndex] = useState(null);
   const [isCorrect, setisCorrect] = useState(false);
-  const testData = useSelector((state) => state.toolkit.tests).flat();
   const [right, setright] = useState(true);
+  const testData = useSelector((state) => state.toolkit.tests).flat();
 
   useEffect(() => {
     if (!right) {
