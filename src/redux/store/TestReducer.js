@@ -12,7 +12,6 @@ export const testReducer = createReducer(defaultState, {
 
     [fetchCurTest]: function (state, { payload }) {
         const {results} = payload;
-       
         
         state.tests.push(results.flat())
 
