@@ -21,10 +21,7 @@
     max-width: 400px;
     margin-bottom: 40px;
 }
-$primary: #e7d422;
-$secondary: #b8ef38;
-$white: #fff;
-$gray: #ccff24;
+
 
 .form__group {
   position: relative;
@@ -39,10 +36,10 @@ $gray: #ccff24;
   font-family: inherit;
   width: 900px;
   border: 0;
-  border-bottom: 2px solid $gray;
+  border-bottom: 2px solid #ccff24;
   outline: 0;
   font-size: 1.3rem;
-  color: $white;
+  color: #fff;
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
@@ -64,7 +61,7 @@ $gray: #ccff24;
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: $gray;
+  color: #ccff24;
 }
 
 .form__field:focus {
@@ -74,13 +71,13 @@ $gray: #ccff24;
     display: block;
     transition: 0.2s;
     font-size:26px;
-    color: $primary;
+    color: #e7d422;
     font-weight:700;    
   }
   padding-bottom: 6px;  
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, $primary,$secondary);
+  border-image: linear-gradient(to right, #e7d422,#b8ef38);
   border-image-slice: 1;
 }
 
