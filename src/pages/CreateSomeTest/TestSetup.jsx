@@ -7,7 +7,7 @@ import { fetchCurTests } from "../../services/servise";
 
 import { takeNumberOfQuestions } from "../../redux/store/TestReducer";
 
-import style from "../CreateSomeTest/testsetup.module.scss";
+import style from "../CreateSomeTest/testSetup.module.scss";
 
 const optionsForCategory = [
   { value: 9, label: "General Knowledge" },
@@ -26,7 +26,7 @@ const optionsForDiffucalty = [
 
 
 const CreateTest = () => {
-  
+
   const { nextStep } = useWizard();
   const dispatch = useDispatch();
   const [optionsForUrl, setoptionsForUrl] = useState({});
