@@ -6,7 +6,7 @@ import style from "./ourTest.module.scss";
 
 const cleanFromSymbols = (curIt) => {
   const arrForCleanedQuestions = [];
-  const spesialSymbols = /[&,;,#,0,3,9,S]+/g;
+  const spesialSymbols = /[&,;,#,0,3,9]+/g;
 
   if (typeof curIt === "string") {
     return curIt.replaceAll(spesialSymbols, "");
@@ -14,7 +14,7 @@ const cleanFromSymbols = (curIt) => {
   
     curIt.forEach((curObjs) => {
     const cleanedQuestion = curObjs.map((it) =>
-      it.replaceAll(/[&,;,#,0,3,S]+/g, "")
+      it.replaceAll(/[&,;,#,0,3,]+/g, "")
     );
     arrForCleanedQuestions.push(cleanedQuestion)
   });
