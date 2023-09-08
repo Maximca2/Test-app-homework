@@ -5,9 +5,11 @@ import { useWizard } from "react-use-wizard";
 
 import { fetchCurTests } from "../../services/servise";
 
+import { takeNumberOfQuestions } from "../../redux/store/TestReducer";
+
 import style from "../CreateSomeTest/testsetup.module.scss";
 
-const optionsforcategory = [
+const optionsForCategory = [
   { value: 9, label: "General Knowledge" },
   { value: 10, label: "Entertainment: Books" },
   { value: 11, label: "Entertainment: Film" },
@@ -16,22 +18,27 @@ const optionsforcategory = [
   { value: 14, label: "Entertainment: Television" },
 ];
 
-const optionsfordiffucalty = [
+const optionsForDiffucalty = [
   { values: "easy", label: "Easy" },
   { values: "medium", label: "Medium" },
   { values: "hard", label: "Hard" },
 ];
 
-function generateUrl(objects) {
-  const ourUrl = `https://opentdb.com/api.php?amount=${objects?.amount}&category=${objects?.category}&difficulty=${objects?.diffucalty}&type=multiple`;
-  return ourUrl;
-}
 
 const CreateTest = () => {
+  
   const { nextStep } = useWizard();
   const dispatch = useDispatch();
   const [optionsForUrl, setoptionsForUrl] = useState({});
-  const [createTets, setcreateTets] = useState(false);
+  const [createTets, setCreateTets] = useState(false);
+
+  function generateUrl(objects) {
+    const{amount,category,diffucalty} = objects
+    dispatch(takeNumberOfQuestions(amount))
+    const ourUrl = `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${diffucalty}&type=multiple`;
+    return ourUrl;
+  }
+  
 
   useEffect(() => {
     if (createTets) {
@@ -47,7 +54,6 @@ const CreateTest = () => {
     }
   };
   
-
   return (
     <div className={style.box}>
       
@@ -71,18 +77,20 @@ const CreateTest = () => {
         onChange={(event) =>
           setoptionsForUrl({ ...optionsForUrl, category: event.value })
         }
-        options={optionsforcategory}
+        options={optionsForCategory}
       />
       <Select
         className={style.select}
         onChange={(event) =>
           setoptionsForUrl({ ...optionsForUrl, diffucalty: event.values })
         }
-        options={optionsfordiffucalty}
+        options={optionsForDiffucalty}
       />
       <div className={style.boxForBtns}>
-        {createTets?<button className={style.goToTest} onClick={() => nextStep()}>Go to test</button>:'ви не можете перейти до тесту доки не створите тест'}
-      <button className={style.buttonCreate} onClick={() => setcreateTets(true)}> create Test </button>
+        {createTets? <button className={style.goToTest} onClick={() =>setTimeout(()=>{
+          nextStep()
+        },1000) }>Go to test</button>:'ви не можете перейти до тесту доки не створите тест'}
+      <button className={style.buttonCreate} onClick={() => setCreateTets(true)}> create Test </button>
       </div>
       
     </div>
