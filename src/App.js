@@ -6,6 +6,7 @@ import OurTest from './pages/CurentTest/OurTest';
 import './App.css';
 
 function App() {
+
   return (
     <div className="App">
       <Wizard>
@@ -14,6 +15,7 @@ function App() {
       </Wizard>
     </div>
   );
+  
 }
 
 export default App;
