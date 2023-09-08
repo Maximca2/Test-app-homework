@@ -4,105 +4,127 @@ import { useSelector } from "react-redux";
 
 import style from "./ourTest.module.scss";
 
+const cleanFromSymbols = (curIt) => {
+  const arrForCleanedQuestions = [];
+  const spesialSymbols = /[&,;,#,0,3,9,S]+/g;
+
+  if (typeof curIt === "string") {
+    return curIt.replaceAll(spesialSymbols, "");
+  }
+  
+    curIt.forEach((curObjs) => {
+    const cleanedQuestion = curObjs.map((it) =>
+      it.replaceAll(/[&,;,#,0,3,S]+/g, "")
+    );
+    arrForCleanedQuestions.push(cleanedQuestion)
+  });
+
+  return arrForCleanedQuestions
+
+};
+const showCurrentQuestion = (arr) => {
+  const questionData = [];
+  arr.forEach((it) => {
+    const question = it.question;
+
+    questionData.push(cleanFromSymbols(question));
+  });
+
+  return questionData;
+};
+
 const OurTest = () => {
-  const [numberOfQuastion, setNumberOfQuastion] = useState(0);
+  // ourData
+  const [numberOfQuestion, setNumberOfQuestion] = useState(0);
   const [nextTest, setnextTest] = useState(false);
   const [buttonIndex, setButtonIndex] = useState(null);
-  const [isCorrect, setisCorrect] = useState(false);
-  const [right, setright] = useState(true);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [right, setrRght] = useState(true);
   const testData = useSelector((state) => state.toolkit.tests).flat();
 
+  const oursQuestions = useSelector(
+    (state) => state.toolkit.ourQuestions
+  ).flat();
+  const numberOfQuestionsMax = useSelector(
+    (state) => state.toolkit.numberOfQuestions
+  ).join("");
+
   useEffect(() => {
-    if (!right) {
-      setright(true);
-    }
     setTimeout(() => {
-      setisCorrect(false);
+      setIsCorrect(false);
     }, 1000);
+
     setButtonIndex(null);
   }, [buttonIndex]);
 
-  const combineData = (arr) => {
-    const arrToCorrectandIncorrect = [];
-    const curArrTest = arr[numberOfQuastion];
-    const filteredArr = arr.filter((it) => it === curArrTest);
-    filteredArr.forEach((it) => {
-      const { incorrect_answers, correct_answer } = it;
-      const incorrectAndCorect = [incorrect_answers, correct_answer].flat();
-      arrToCorrectandIncorrect.push(incorrectAndCorect);
-    });
-    const randomQuastions = arrToCorrectandIncorrect
-      .flat()
-      .sort(() => (Math.random() > 0.5 ? 1 : -1));
-    return randomQuastions;
-  };
-
   const checkData = (data, value, index) => {
     if (value.correct_answer === data) {
-      setisCorrect(true);
+      setIsCorrect(true);
       setnextTest(true);
       setButtonIndex(index);
     }
-    setright(false);
+    setrRght(false);
   };
 
   useEffect(() => {
     setnextTest(false);
     if (nextTest) {
       nextPage();
+      if (!right) {
+        setrRght(true);
+      }
     }
   }, [nextTest]);
 
-  const showCurrentQuastion = (arr) => {
-    const questionData = [];
-    arr.forEach((it) => {
-      questionData.push(it.question);
-    });
 
-    return questionData;
-  };
   const nextPage = () => {
     if (nextTest) {
-      const curentPage = numberOfQuastion + 1;
-      setNumberOfQuastion(curentPage);
+      const currentPage = numberOfQuestion + 1;
+      setNumberOfQuestion(currentPage);
     }
   };
 
   return (
-    <div className={right ? style.boxNotRight : style.box}>
+    <>
       {right ? "Розвязуйте" : "щось не так"}
-      <div className={style.test}>тест</div>
-      <div className={style.tittle}>
-        {isCorrect ? "Відповідь правильна" : null}
-      </div>
-      {!testData ? (
-        "даних немає"
-      ) : (
-        <div className={style.someVariable}>
-          <div className={style.numberquastion}>
-            Питання: {numberOfQuastion}
-          </div>
-          {numberOfQuastion === 9
-            ? "Питання закінчилися"
-            : combineData(testData)?.map((it, i) => {
-                return (
-                  <div
-                    className={buttonIndex === i ? style.red : style.curent}
-                    key={i}
-                    onClick={() => checkData(it, testData[numberOfQuastion], i)}
-                  >
-                    {it}
-                  </div>
-                );
-              })}
-          <div className={style.question}>
-            {numberOfQuastion === 9
-              ? null
-              : showCurrentQuastion(testData.flat())[numberOfQuastion]}
-          </div>
+      <div className={right ? style.boxNotRight : style.box}>
+        <div className={style.test}>тест</div>
+        <div className={style.tittle}>
+          {isCorrect ? "Відповідь правильна" : null}
         </div>
-      )}
-    </div>
+        {!testData ? (
+          "даних немає"
+        ) : (
+          <div className={style.someVariable}>
+            <div className={style.numberQuastion}>
+              Питання: {numberOfQuestion}
+            </div>
+            {numberOfQuestion === numberOfQuestionsMax - 1
+              ? "Питання закінчилися"
+              : cleanFromSymbols(oursQuestions)[numberOfQuestion].map(
+                  (it, i) => {
+                    return (
+                      <div
+                        className={buttonIndex === i ? style.red : style.curent}
+                        key={i}
+                        onClick={() =>
+                          checkData(it, testData[numberOfQuestion], i)
+                        }
+                      >
+                        {it}
+                      </div>
+                    );
+                  }
+                )}
+            <div className={style.curQuestion}>
+              {numberOfQuestion === numberOfQuestionsMax - 1
+                ? null
+                : showCurrentQuestion(testData.flat())[numberOfQuestion]}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
