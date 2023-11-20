@@ -15,6 +15,9 @@ export const testReducer = createReducer(defaultState, {
 
     [fetchCurTest]: function (state, { payload }) {
         const { results } = payload;
+        if(!results){
+            return
+        }
         
         results.forEach(it => {
             const{incorrect_answers,correct_answer} = it

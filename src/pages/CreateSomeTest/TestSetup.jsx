@@ -7,7 +7,7 @@ import { fetchCurTests } from "../../services/servise";
 
 import { takeNumberOfQuestions } from "../../redux/store/TestReducer";
 
-import style from "../CreateSomeTest/testSetup.module.scss";
+import style from "./testsetup.module.scss";
 
 const optionsForCategory = [
   { value: 9, label: "General Knowledge" },
@@ -41,7 +41,8 @@ const CreateTest = () => {
   
 
   useEffect(() => {
-    if (createTets) {
+    
+    if (createTets&&optionsForUrl.amount>=10&&optionsForUrl.amount<=32) {
       dispatch(fetchCurTests(generateUrl(optionsForUrl)));
     }
 
@@ -61,14 +62,14 @@ const CreateTest = () => {
         <input
           type="input"
           className={style.form__field}
-          placeholder="Name"
+          placeholder=""
           name="name"
           id="name"
           required
           onChange={handelChange}
         />
         <label  className={style.form__label}>
-          Створіть тест
+          Створіть тест (Кількість має бути більше 10 і менше 32)
         </label>
       </div>
       <Select
@@ -87,7 +88,7 @@ const CreateTest = () => {
         options={optionsForDiffucalty}
       />
       <div className={style.boxForBtns}>
-        {createTets? <button className={style.goToTest} onClick={() =>setTimeout(()=>{
+        {createTets&&optionsForUrl.amount&&optionsForUrl.category&&optionsForUrl.diffucalty? <button className={style.goToTest} onClick={() =>setTimeout(()=>{
           nextStep()
         },1000) }>Go to test</button>:'ви не можете перейти до тесту доки не створите тест'}
       <button className={style.buttonCreate} onClick={() => setCreateTets(true)}> create Test </button>
