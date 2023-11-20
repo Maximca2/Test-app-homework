@@ -46,7 +46,7 @@ const CreateTest = () => {
       dispatch(fetchCurTests(generateUrl(optionsForUrl)));
     }
 
-  }, [createTets]);
+  }, [createTets,dispatch,generateUrl,optionsForUrl]);
 
   const handelChange = (e) => {
     const amountValue = e.target.value;
