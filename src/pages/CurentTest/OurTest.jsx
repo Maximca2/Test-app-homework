@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -11,16 +11,15 @@ const cleanFromSymbols = (curIt) => {
   if (typeof curIt === "string") {
     return curIt.replaceAll(spesialSymbols, "");
   }
-  
-    curIt.forEach((curObjs) => {
+
+  curIt.forEach((curObjs) => {
     const cleanedQuestion = curObjs.map((it) =>
       it.replaceAll(/[&,;,#,0,3,]+/g, "")
     );
-    arrForCleanedQuestions.push(cleanedQuestion)
+    arrForCleanedQuestions.push(cleanedQuestion);
   });
 
-  return arrForCleanedQuestions
-
+  return arrForCleanedQuestions;
 };
 const showCurrentQuestion = (arr) => {
   const questionData = [];
@@ -57,14 +56,12 @@ const OurTest = () => {
     setButtonIndex(null);
   }, [buttonIndex]);
 
-  const checkData = (data, value, index) => {
-    if (value.correct_answer === data) {
-      setIsCorrect(true);
-      setnextTest(true);
-      setButtonIndex(index);
+  const nextPage = useCallback(()=> {
+    if (nextTest) {
+      const currentPage = numberOfQuestion + 1;
+      setNumberOfQuestion(currentPage);
     }
-    setrRght(false);
-  };
+  },[nextTest,numberOfQuestion,setNumberOfQuestion]) 
 
   useEffect(() => {
     setnextTest(false);
@@ -74,15 +71,18 @@ const OurTest = () => {
         setrRght(true);
       }
     }
-  }, [nextTest]);
+  },[right,nextTest,nextPage]);
 
-
-  const nextPage = () => {
-    if (nextTest) {
-      const currentPage = numberOfQuestion + 1;
-      setNumberOfQuestion(currentPage);
+  const checkData = (data, value, index) => {
+    if (value.correct_answer === data) {
+      setIsCorrect(true);
+      setnextTest(true);
+      setButtonIndex(index);
     }
+    setrRght(false);
   };
+
+
 
   return (
     <>
